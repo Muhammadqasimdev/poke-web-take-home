@@ -14,7 +14,9 @@ const pokemonApi = {
   // Get detailed pokemon data
   async getPokemonDetails(urlOrName) {
     const response = await axios.get(
-      typeof urlOrName === 'string' && urlOrName.includes('http') ? urlOrName : `${this.baseURL}/pokemon/${urlOrName}`
+      typeof urlOrName === 'string' && urlOrName.includes('http')
+        ? urlOrName
+        : `${this.baseURL}/pokemon/${urlOrName}`
     );
     return response.data;
   },
@@ -40,7 +42,7 @@ function App() {
       // Fetch detailed data for each Pokemon
       // Note: Consider implementing batching/caching for better performance
       const detailedPokemon = await Promise.all(
-        pokemonList.map((pokemon) => pokemonApi.getPokemonDetails(pokemon.url))
+        pokemonList.map(pokemon => pokemonApi.getPokemonDetails(pokemon.url))
       );
 
       setPokemonData(detailedPokemon);
