@@ -56,69 +56,112 @@ function App() {
 
   if (loading) {
     return (
-      <div className="container">
-        <div className="header">
-          <h1>🚀 Pokémon Analytics Dashboard</h1>
-          <p>Interactive data visualization and analysis platform</p>
+      <div className="min-h-screen bg-gray-100 py-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">
+              🚀 Pokémon Analytics Dashboard
+            </h1>
+            <p className="text-gray-600">
+              Interactive data visualization and analysis platform
+            </p>
+          </div>
+          <div className="flex justify-center items-center py-12">
+            <div className="bg-white rounded-lg shadow-md px-8 py-6">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading Pokémon data...</p>
+            </div>
+          </div>
         </div>
-        <div className="loading">Loading Pokémon data...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container">
-        <div className="header">
-          <h1>Pokémon Analytics Dashboard</h1>
-          <p>Interactive data visualization and analysis platform</p>
+      <div className="min-h-screen bg-gray-100 py-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">
+              Pokémon Analytics Dashboard
+            </h1>
+            <p className="text-gray-600">
+              Interactive data visualization and analysis platform
+            </p>
+          </div>
+          <div className="flex justify-center items-center py-12">
+            <div className="bg-white rounded-lg shadow-md px-8 py-6 text-center">
+              <div className="text-red-500 text-lg mb-4">{error}</div>
+              <button
+                onClick={loadPokemonData}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="error">{error}</div>
-        <button onClick={loadPokemonData}>Try Again</button>
       </div>
     );
   }
 
   return (
-    <div className="container">
-      <div className="header">
-        <h1>Pokémon Analytics Dashboard</h1>
-        <p>Interactive data visualization and analysis platform</p>
-      </div>
-
-      {/* Sample data display - replace with your visualizations */}
-      <div className="dashboard-grid">
-        <div className="chart-container">
-          <h3 className="chart-title">Data Loaded Successfully!</h3>
-          <p>Found {pokemonData.length} Pokémon</p>
-
-          {/* Example data structure preview */}
-          <details style={{ marginTop: '1rem' }}>
-            <summary>Sample Data Structure (click to expand)</summary>
-            <pre
-              style={{
-                fontSize: '0.8rem',
-                overflow: 'auto',
-                background: '#f8f9fa',
-                padding: '1rem',
-                borderRadius: '4px',
-                marginTop: '0.5rem',
-              }}
-            >
-              {JSON.stringify(pokemonData[0], null, 2)}
-            </pre>
-          </details>
+    <div className="min-h-screen bg-gray-100 py-8">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+            Pokémon Analytics Dashboard
+          </h1>
+          <p className="text-gray-600">
+            Interactive data visualization and analysis platform
+          </p>
         </div>
 
-        <div className="chart-container">
-          <h3 className="chart-title">Your Visualization Here</h3>
-          <p>Replace this with your charts and interactive components</p>
-          <ul style={{ marginTop: '1rem', listStyle: 'inside' }}>
-            <li>Chart.js is already included</li>
-            <li>Axios for API calls</li>
-            <li>Basic responsive CSS provided</li>
-            <li>Error handling scaffolded</li>
-          </ul>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Data Loaded Successfully!
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Found {pokemonData.length} Pokémon
+            </p>
+
+            <details className="mt-4">
+              <summary className="cursor-pointer text-blue-600 hover:text-blue-800 font-medium">
+                Sample Data Structure (click to expand)
+              </summary>
+              <pre className="text-xs overflow-auto bg-gray-50 p-4 rounded-md mt-2 border">
+                {JSON.stringify(pokemonData[0], null, 2)}
+              </pre>
+            </details>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Your Visualization Here
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Replace this with your charts and interactive components
+            </p>
+            <ul className="space-y-2 text-gray-600">
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                Chart.js is already included
+              </li>
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                Axios for API calls
+              </li>
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                Tailwind CSS now configured
+              </li>
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                Error handling scaffolded
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
