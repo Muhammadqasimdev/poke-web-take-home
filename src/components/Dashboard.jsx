@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import pokemonApi from '../services/pokemonApi';
@@ -16,11 +16,13 @@ import StatAnalysisChart from './charts/StatAnalysisChart';
 import HeightWeightChart from './charts/HeightWeightChart';
 import ThemeToggle from './ThemeToggle';
 import ExportButton from './ExportButton';
+import { ChartSkeleton, DashboardSkeleton } from './SkeletonLoaders';
 
 const Dashboard = () => {
   const { current: theme } = useTheme();
   const [transformedData, setTransformedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
     type: 'all',
     search: '',
@@ -42,6 +44,7 @@ const Dashboard = () => {
 
   const loadPokemonData = async () => {
     try {
+      setIsLoading(true);
       const pokemonList = await pokemonApi.getPokemonList(151);
       const detailedPokemon = await pokemonApi.getPokemonBatch(pokemonList, 15);
       const transformed = transformPokemonData(detailedPokemon);
@@ -51,6 +54,8 @@ const Dashboard = () => {
       setAvailableTypes(getUniqueTypes(transformed));
     } catch (err) {
       console.error('Error loading Pokemon data:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,6 +66,10 @@ const Dashboard = () => {
   const typeDistribution = getTypeDistribution(filteredData);
   const statAnalysis = getStatAnalysis(filteredData);
   const heightWeightData = getHeightWeightCorrelation(filteredData);
+
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
 
   return (
     <div className={`min-h-screen ${theme.bg} py-8`}>
@@ -103,11 +112,15 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
-          <TypeDistributionChart
-            data={typeDistribution}
-            title="Type Distribution"
-          />
-          <StatAnalysisChart data={statAnalysis} title="Stat Analysis" />
+          <Suspense fallback={<ChartSkeleton />}>
+            <TypeDistributionChart
+              data={typeDistribution}
+              title="Type Distribution"
+            />
+          </Suspense>
+          <Suspense fallback={<ChartSkeleton />}>
+            <StatAnalysisChart data={statAnalysis} title="Stat Analysis" />
+          </Suspense>
         </div>
 
         <div className="mb-6">
